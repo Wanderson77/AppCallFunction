@@ -1,57 +1,51 @@
-/*This is an Example of Calling Other Class Function in React Native*/
-import React, { Component } from 'react';
-import { StyleSheet, View, Alert, Platform, Button } from 'react-native';
+/*This is an Example to Hide/Show View  Component in React Native on button Click*/
 
+import React, { Component } from 'react';
+import { StyleSheet, View, Button, Image } from 'react-native';
 
 export default class App extends Component {
 
-  handlerSimpleCall = () => {
-    //Calling a function of other class (without arguments)
-    new OtherClass().functionWithoutArg();
-  };
+  constructor() {
+    super();
+    this.state = {
+      show: true,
+    };
+  }
 
-  handlerArgCall = () => {
-    //Calling a function of other class (with argument)
-    new OtherClass().functionWithArg('About React');
+  ShowHideComponent = () => {
+    if (this.state.show == true) {
+      this.setState({ show: false });
+    } else {
+      this.setState({ show: true });
+    }
   };
 
   render() {
     return (
-      <View
-        style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          flex: 1,
-          backgroundColor: '#F5FCFF',
-        }}>
-        <View style={{ margin: 10 }}>
-          <Button
-            title="Function Without Argument"
-            onPress={this.handlerSimpleCall}
-            color="#606070"
+      <View style={styles.MainContainer}>
+        {/*Here we will return the view when state is true 
+        and will return false if state is false*/}
+        {this.state.show ? (
+          <Image
+            source={{
+              uri: 'https://raw.githubusercontent.com/AboutReact/sampleresource/master/old_logo.png',
+            }}
+            style={{ width: 100, height: 100 }}
           />
-        </View>
-        <View style={{ margin: 10 }}>
-          <Button
-            title=" Function With Argument"
-            onPress={this.handlerArgCall}
-            color="#606070"
-          />
-        </View>
+        ) : null}
+        <Button title="Hide/Show Component" onPress={this.ShowHideComponent} />
       </View>
     );
   }
 }
 
-class OtherClass extends Component {
-    
-  functionWithoutArg = () => {
-    //function to be called from default class (without args)
-    alert('Function Called Without Argument ');
-  };
+const styles = StyleSheet.create({
 
-  functionWithArg = Value => {
-    //function to called from default class (with args)
-    alert(Value);
-  };
-}
+  MainContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+    margin: 10,
+  },
+  
+});
